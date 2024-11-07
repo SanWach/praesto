@@ -10,7 +10,9 @@ current_time=$(date '+%Y-%m-%d %H:%M:%S')
 # Check internet connection by pinging Google
 ping -c 1 -q $service &> /dev/null
 if [ $? -eq 0 ]; then
-    echo "$current_time : Status OK! Connected to the Internet!" >> "$log_file"
+    # Message for internet connection status
+    internet_message="$current_time : Status OK! Connected to the Internet!"
+    echo "$internet_message" | tee -a "$log_file"
 
     # Prompt user for the website to check
     echo "Enter the website you want to check: "
@@ -21,10 +23,14 @@ if [ $? -eq 0 ]; then
     if [ $? -eq 0 ]; then
         # Extract response time
         response_time=$(ping -c 1 "$website" | grep 'time=' | sed 's/.*time=\(.*\) ms/\1/')
-        echo "$current_time - $website is online with ping $response_time ms" >> "$log_file"
+        website_message="$current_time - $website is online with ping $response_time ms"
+        echo "$website_message" | tee -a "$log_file"
     else
-        echo "$current_time - $website is offline" >> "$log_file"
+        website_message="$current_time - $website is offline"
+        echo "$website_message" | tee -a "$log_file"
     fi
 else
-    echo "$current_time - NOK - Not connected to the Internet" >> "$log_file"
+    # Message for no internet connection
+    no_internet_message="$current_time - NOK - Not connected to the Internet"
+    echo "$no_internet_message" | tee -a "$log_file"
 fi
