@@ -20,12 +20,13 @@ This is a simple Bash script that checks internet connectivity and verifies if s
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/your-username/website-status-checker.git
-   cd website-status-checker
-   chmod +x website_status_checker.sh
+   git clone https://github.com/SanWach/praesto
+   cd praesto
+   
 2. ** Make the Script Executable**:
+
     ```bash
-    chmod +x Praesto.sh
+    chmod +x praesto.sh
 
 ### Run the Script
 
