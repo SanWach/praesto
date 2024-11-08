@@ -18,15 +18,16 @@ if [ $? -eq 0 ]; then
     echo "Enter the website you want to check: "
     read website
 
-    # Check if the specified website is online
-    ping -c 1 -q "$website" &> /dev/null
+    # Use curl to check if the website is online and measure response time
+    response_time=$(curl -o /dev/null -s -w '%{time_connect}\n' "https://$website")
+
     if [ $? -eq 0 ]; then
-        # Extract response time
-        response_time=$(ping -c 1 "$website" | grep 'time=' | sed 's/.*time=\(.*\) ms/\1/')
-        website_message="$current_time - $website is online with ping $response_time ms"
+        # Convert response time from seconds to milliseconds
+        response_time_ms=$(echo "$response_time * 1000" | bc)
+        website_message="$current_time - $website is online with response time ${response_time_ms} ms"
         echo "$website_message" | tee -a "$log_file"
     else
-        website_message="$current_time - $website is offline"
+        website_message="$current_time - $website is offline or not reachable via HTTP/HTTPS"
         echo "$website_message" | tee -a "$log_file"
     fi
 else
